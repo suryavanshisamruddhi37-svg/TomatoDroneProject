@@ -1,0 +1,8 @@
+Flask
+mysql-connector-python
+opencv-python
+numpy
+Pillow
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
