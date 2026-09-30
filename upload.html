@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload &amp; Detect · CropCare AI</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/dashboard.css" rel="stylesheet">
+<link href="css/responsive.css" rel="stylesheet">
+</head>
+<body>
+<div class="d-flex">
+  <nav class="sidebar d-none d-md-flex flex-column p-3">
+    <div class="brand mb-4 px-1">CropCare <span>AI</span></div>
+    <a class="nav-link" href="dashboard.html">Dashboard</a>
+    <a class="nav-link active" href="upload.html">Upload &amp; Detect</a>
+    <a class="nav-link" href="history.html">Prediction History</a>
+    <a class="nav-link" href="diseases.html">Crop Diseases</a>
+    <a class="nav-link" href="quality-guide.html">Quality Guide</a>
+    <a class="nav-link" href="profile.html">Profile</a>
+    <a class="nav-link mt-auto text-danger" href="#" onclick="logout()">Logout</a>
+  </nav>
+
+  <div class="flex-grow-1">
+    <header class="d-flex justify-content-between align-items-center px-4 py-3 bg-white border-bottom">
+      <span class="fw-semibold d-md-none">CropCare AI</span>
+      <div></div>
+      <span id="userName" class="small fw-semibold">User</span>
+    </header>
+
+    <main class="p-4">
+      <h3 class="fw-bold">Upload &amp; Detect</h3>
+      <p class="text-muted">Upload a clear image of the crop leaf, select the crop type, and run detection.</p>
+
+      <div id="uploadAlert" class="alert alert-danger d-none py-2"></div>
+
+      <div class="row g-4 mt-1">
+        <div class="col-lg-8">
+          <div id="dropZone" class="drop-zone text-center py-5">
+            <div style="font-size:2.2rem;">⬆️</div>
+            <p class="fw-semibold mb-1">Drag &amp; Drop your image here</p>
+            <p class="text-muted small mb-2">or</p>
+            <button type="button" id="chooseBtn" class="btn btn-cc-primary">Choose Image</button>
+            <input type="file" id="fileInput" accept="image/*" class="d-none">
+            <p class="text-muted small mt-2 mb-0">JPG, PNG, JPEG (Max 10MB)</p>
+          </div>
+
+          <div id="previewCard" class="card-cc p-3 mt-3 d-none">
+            <div class="row g-3 align-items-start">
+              <div class="col-sm-4">
+                <img id="previewImg" class="w-100 rounded" style="height:150px;object-fit:cover;">
+              </div>
+              <div class="col-sm-8">
+                <label class="form-label small fw-semibold">Crop type</label>
+                <select id="cropSelect" class="form-select mb-3">
+                  <option>Tomato</option><option>Potato</option><option>Apple</option>
+                  <option>Grapes</option><option>Chili</option><option>Corn</option>
+                  <option>Rice</option><option>Other</option>
+                </select>
+                <div class="d-flex gap-2">
+                  <button id="analyzeBtn" class="btn btn-cc-primary">
+                    <span id="analyzeBtnText">Detect Disease</span>
+                    <span id="analyzeSpinner" class="spinner-border spinner-border-sm d-none ms-1"></span>
+                  </button>
+                  <button id="clearBtn" class="btn btn-cc-outline">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-cc p-3" style="background:var(--green-50);">
+            <h6 class="fw-semibold mb-2">Tips for better results</h6>
+            <ul class="small text-muted ps-3 mb-0">
+              <li>Upload clear and focused images</li>
+              <li>Good lighting conditions</li>
+              <li>Capture a single leaf/fruit</li>
+              <li>Avoid blurred images</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/upload.js"></script>
+</body>
+</html>

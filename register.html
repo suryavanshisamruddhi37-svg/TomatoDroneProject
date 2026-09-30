@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up · CropCare AI</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/auth.css" rel="stylesheet">
+<link href="css/responsive.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6 d-flex align-items-center justify-content-center order-2 order-lg-1" style="min-height:100vh;">
+      <form id="registerForm" class="w-100 px-4 auth-form-wrap" novalidate>
+        <a href="index.html" class="brand mb-4 d-block text-decoration-none">CropCare <span>AI</span></a>
+        <h3 class="fw-bold mb-1">Create new account</h3>
+        <p class="text-muted mb-4" style="font-size:.9rem;">Join CropCare AI to start diagnosing crops.</p>
+
+        <div id="registerAlert" class="alert alert-danger d-none py-2" role="alert"></div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Full Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="mb-4">
+          <label class="form-label small fw-semibold">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Create a password" minlength="6" required>
+        </div>
+        <button type="submit" id="registerBtn" class="btn btn-cc-primary w-100 py-2 fw-semibold">
+          <span id="registerBtnText">Sign Up</span>
+          <span id="registerSpinner" class="spinner-border spinner-border-sm d-none ms-1"></span>
+        </button>
+        <p class="text-center small text-muted mt-3">
+          Already have an account? <a href="login.html" style="color:var(--green-600);font-weight:600;">Login</a>
+        </p>
+      </form>
+    </div>
+    <div class="col-lg-6 d-none d-lg-block order-1 order-lg-2 p-0">
+      <img src="assets/images/auth-signup.jpg" class="w-100 h-100" style="object-fit:cover;min-height:100vh;">
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
