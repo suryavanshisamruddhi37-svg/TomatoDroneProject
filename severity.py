@@ -3,9 +3,6 @@ import numpy as np
 import os
 
 
-# =========================================================
-# CONFIGURATION
-# =========================================================
 
 IMAGE_SIZE = (224, 224)
 
@@ -14,9 +11,6 @@ TEST_FOLDER = (
 )
 
 
-# =========================================================
-# SEVERITY CLASSIFICATION
-# =========================================================
 
 def get_severity(infection_percentage):
     """
@@ -40,9 +34,6 @@ def get_severity(infection_percentage):
         return "Very Severe"
 
 
-# =========================================================
-# LEAF DETECTION
-# =========================================================
 
 def detect_leaf(image):
     """
@@ -95,9 +86,6 @@ def detect_leaf(image):
     return leaf_mask
 
 
-# =========================================================
-# INFECTED REGION DETECTION
-# =========================================================
 
 def detect_infected_region(
     image,
@@ -117,10 +105,6 @@ def detect_infected_region(
         cv2.COLOR_BGR2HSV
     )
 
-    # -----------------------------------------------------
-    # BROWN / YELLOW DISEASE REGIONS
-    # -----------------------------------------------------
-
     lower_brown = np.array(
         [5, 40, 20]
     )
@@ -134,10 +118,6 @@ def detect_infected_region(
         lower_brown,
         upper_brown
     )
-
-    # -----------------------------------------------------
-    # DARK DISEASE REGIONS
-    # -----------------------------------------------------
 
     lower_dark = np.array(
         [0, 0, 0]
@@ -153,9 +133,6 @@ def detect_infected_region(
         upper_dark
     )
 
-    # -----------------------------------------------------
-    # COMBINE MASKS
-    # -----------------------------------------------------
 
     infected_mask = cv2.bitwise_or(
         brown_mask,
@@ -192,9 +169,6 @@ def detect_infected_region(
     return infected_mask
 
 
-# =========================================================
-# CALCULATE LEAF AND INFECTION AREA
-# =========================================================
 
 def calculate_infection_percentage(
     leaf_mask,
@@ -242,9 +216,6 @@ def calculate_infection_percentage(
     )
 
 
-# =========================================================
-# CREATE INFECTION VISUALIZATION
-# =========================================================
 
 def create_infection_visualization(
     image,
@@ -257,9 +228,6 @@ def create_infection_visualization(
 
     result = image.copy()
 
-    # -----------------------------------------------------
-    # CREATE RED OVERLAY
-    # -----------------------------------------------------
 
     red_overlay = np.zeros_like(
         image
@@ -271,7 +239,7 @@ def create_infection_visualization(
         255
     )
 
-    # Apply overlay only to infected pixels
+  
     infected_pixels = (
         infected_mask > 0
     )
@@ -282,10 +250,7 @@ def create_infection_visualization(
         255
     )
 
-    # -----------------------------------------------------
-    # FIND CONTOURS
-    # -----------------------------------------------------
-
+ 
     contours, _ = cv2.findContours(
         infected_mask,
         cv2.RETR_EXTERNAL,
@@ -304,9 +269,6 @@ def create_infection_visualization(
     return result
 
 
-# =========================================================
-# COMPLETE INFECTION ANALYSIS
-# =========================================================
 
 def analyze_infection(
     image_path
@@ -316,10 +278,7 @@ def analyze_infection(
     on a single tomato leaf image.
     """
 
-    # -----------------------------------------------------
-    # READ IMAGE
-    # -----------------------------------------------------
-
+    
     image = cv2.imread(
         image_path
     )
@@ -330,27 +289,17 @@ def analyze_infection(
             f"Unable to read image: {image_path}"
         )
 
-    # -----------------------------------------------------
-    # RESIZE
-    # -----------------------------------------------------
-
+   
     image = cv2.resize(
         image,
         IMAGE_SIZE
     )
 
-    # -----------------------------------------------------
-    # DETECT LEAF
-    # -----------------------------------------------------
-
     leaf_mask = detect_leaf(
         image
     )
 
-    # -----------------------------------------------------
-    # DETECT INFECTED REGION
-    # -----------------------------------------------------
-
+   
     infected_mask = (
         detect_infected_region(
             image,
@@ -358,10 +307,7 @@ def analyze_infection(
         )
     )
 
-    # -----------------------------------------------------
-    # CALCULATE AREA
-    # -----------------------------------------------------
-
+    
     (
         infection_percentage,
         leaf_area,
@@ -371,17 +317,9 @@ def analyze_infection(
         infected_mask
     )
 
-    # -----------------------------------------------------
-    # DETERMINE SEVERITY
-    # -----------------------------------------------------
-
     severity = get_severity(
         infection_percentage
     )
-
-    # -----------------------------------------------------
-    # CREATE VISUALIZATION
-    # -----------------------------------------------------
 
     visualization = (
         create_infection_visualization(
@@ -390,10 +328,7 @@ def analyze_infection(
         )
     )
 
-    # -----------------------------------------------------
-    # RETURN RESULTS
-    # -----------------------------------------------------
-
+   
     return {
 
         "infection_percentage":
@@ -418,10 +353,6 @@ def analyze_infection(
             visualization
     }
 
-
-# =========================================================
-# FIND FIRST TEST IMAGE
-# =========================================================
 
 def find_test_image():
     """
@@ -457,15 +388,11 @@ def find_test_image():
     return None
 
 
-# =========================================================
-# MAIN TEST
-# =========================================================
-
 if __name__ == "__main__":
 
-    print("\n==========================================")
+    
     print(" TOMATO LEAF INFECTION ANALYSIS")
-    print("==========================================")
+    
 
     # Find test image
     test_image = find_test_image()
@@ -495,10 +422,9 @@ if __name__ == "__main__":
             test_image
         )
 
-        # Display results
-        print("\n==========================================")
+       
         print(" INFECTION ANALYSIS RESULT")
-        print("==========================================")
+        
 
         print(
             f"\nLeaf area:"
@@ -532,10 +458,6 @@ if __name__ == "__main__":
             result["severity"]
         )
 
-        # -------------------------------------------------
-        # SAVE VISUALIZATION
-        # -------------------------------------------------
-
         output_folder = "results/infection_analysis"
 
         os.makedirs(
@@ -561,6 +483,5 @@ if __name__ == "__main__":
             output_path
         )
 
-        print("\n==========================================")
         print(" ANALYSIS COMPLETE")
-        print("==========================================")
+        
