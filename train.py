@@ -29,13 +29,9 @@ RANDOM_SEED = 42
 
 torch.manual_seed(RANDOM_SEED)
 
-
 if torch.cuda.is_available():
-
     DEVICE = torch.device("cuda")
-
 else:
-
     DEVICE = torch.device("cpu")
 
 
@@ -57,9 +53,7 @@ os.makedirs(
 )
 
 
-
 train_transforms = transforms.Compose([
-
     transforms.Resize(
         (IMAGE_SIZE, IMAGE_SIZE)
     ),
@@ -100,7 +94,6 @@ train_transforms = transforms.Compose([
 
 
 valid_test_transforms = transforms.Compose([
-
     transforms.Resize(
         (IMAGE_SIZE, IMAGE_SIZE)
     ),
@@ -163,9 +156,9 @@ num_classes = len(
 )
 
 
-
+print("\n==========================================")
 print("DATASET INFORMATION")
-
+print("==========================================")
 
 print(
     f"\nTraining images   : "
@@ -192,7 +185,6 @@ print("\nClasses:")
 for index, class_name in enumerate(
     class_names
 ):
-
     print(
         f"{index}: {class_name}"
     )
@@ -239,7 +231,6 @@ test_loader = DataLoader(
 )
 
 
-
 print("\n==========================================")
 print("LOADING RESNET18")
 print("==========================================")
@@ -271,7 +262,6 @@ except Exception as e:
     )
 
 
-
 num_features = model.fc.in_features
 
 model.fc = nn.Linear(
@@ -283,7 +273,6 @@ model.fc = nn.Linear(
 model = model.to(
     DEVICE
 )
-
 
 
 class_counts = [
@@ -337,7 +326,6 @@ for i in range(num_classes):
     )
 
 
-
 criterion = nn.CrossEntropyLoss(
     weight=class_weights
 )
@@ -356,7 +344,6 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     factor=0.5,
     patience=2
 )
-
 
 
 def train_one_epoch():
@@ -423,7 +410,6 @@ def train_one_epoch():
     )
 
 
-
 def validate():
 
     model.eval()
@@ -485,8 +471,9 @@ def validate():
     )
 
 
-
+print("\n==========================================")
 print("STARTING TRAINING")
+print("==========================================")
 
 print(
     f"\nEpochs: {NUM_EPOCHS}"
@@ -528,22 +515,19 @@ for epoch in range(
         f"{epoch + 1}/{NUM_EPOCHS}"
     )
 
-    # Training
     train_loss, train_accuracy = (
         train_one_epoch()
     )
 
-    # Validation
     valid_loss, valid_accuracy = (
         validate()
     )
 
-    # Scheduler
     scheduler.step(
         valid_accuracy
     )
 
-    # Save history
+
     train_losses.append(
         train_loss
     )
@@ -559,6 +543,7 @@ for epoch in range(
     valid_accuracies.append(
         valid_accuracy
     )
+
 
     print(
         f"Train Loss: "
@@ -580,7 +565,7 @@ for epoch in range(
         f"{valid_accuracy:.2f}%"
     )
 
-    # Best model
+
     if valid_accuracy > best_accuracy:
 
         best_accuracy = (
@@ -616,7 +601,7 @@ for epoch in range(
         )
 
         print(
-            f"Best model saved!"
+            "Best model saved!"
         )
 
         print(
@@ -630,6 +615,7 @@ model.load_state_dict(
 )
 
 
+print("\n==========================================")
 print("TRAINING COMPLETE")
 
 
@@ -649,6 +635,7 @@ print(
     )
 )
 
+
 print(
     "\nClass names saved at:"
 )
@@ -657,7 +644,10 @@ print(
     class_file
 )
 
-print("\n==========================================")
+print(
+    "\n=========================================="
+)
+
 
 history = {
     "train_loss": train_losses,
@@ -665,6 +655,7 @@ history = {
     "valid_loss": valid_losses,
     "valid_accuracy": valid_accuracies
 }
+
 
 history_path = os.path.join(
     RESULTS_DIR,
@@ -683,13 +674,15 @@ with open(
     )
 
 
-
 epochs = range(
     1,
     NUM_EPOCHS + 1
 )
 
-plt.figure(figsize=(8, 5))
+
+plt.figure(
+    figsize=(8, 5)
+)
 
 plt.plot(
     epochs,
@@ -705,8 +698,13 @@ plt.plot(
     label="Validation Accuracy"
 )
 
-plt.xlabel("Epoch")
-plt.ylabel("Accuracy (%)")
+plt.xlabel(
+    "Epoch"
+)
+
+plt.ylabel(
+    "Accuracy (%)"
+)
 
 plt.title(
     "Training and Validation Accuracy"
@@ -714,9 +712,12 @@ plt.title(
 
 plt.legend()
 
-plt.grid(True)
+plt.grid(
+    True
+)
 
 plt.tight_layout()
+
 
 accuracy_graph = os.path.join(
     RESULTS_DIR,
@@ -730,7 +731,10 @@ plt.savefig(
 
 plt.close()
 
-plt.figure(figsize=(8, 5))
+
+plt.figure(
+    figsize=(8, 5)
+)
 
 plt.plot(
     epochs,
@@ -746,8 +750,13 @@ plt.plot(
     label="Validation Loss"
 )
 
-plt.xlabel("Epoch")
-plt.ylabel("Loss")
+plt.xlabel(
+    "Epoch"
+)
+
+plt.ylabel(
+    "Loss"
+)
 
 plt.title(
     "Training and Validation Loss"
@@ -755,9 +764,12 @@ plt.title(
 
 plt.legend()
 
-plt.grid(True)
+plt.grid(
+    True
+)
 
 plt.tight_layout()
+
 
 loss_graph = os.path.join(
     RESULTS_DIR,
@@ -772,7 +784,9 @@ plt.savefig(
 plt.close()
 
 
-print("\nTraining graphs saved:")
+print(
+    "\nTraining graphs saved:"
+)
 
 print(
     accuracy_graph

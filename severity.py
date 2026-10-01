@@ -2,14 +2,10 @@ import cv2
 import numpy as np
 import os
 
-
-
 IMAGE_SIZE = (224, 224)
-
 TEST_FOLDER = (
     "dataset_clean/test/Bacterial_spot"
 )
-
 
 
 def get_severity(infection_percentage):
@@ -17,39 +13,29 @@ def get_severity(infection_percentage):
     Convert infection percentage into a
     project-defined severity category.
     """
-
     if infection_percentage < 10:
         return "Very Low"
-
     elif infection_percentage < 25:
         return "Mild"
-
     elif infection_percentage < 50:
         return "Moderate"
-
     elif infection_percentage < 75:
         return "Severe"
-
     else:
         return "Very Severe"
-
 
 
 def detect_leaf(image):
     """
     Detect the approximate leaf region using HSV.
-
     Returns:
         Binary leaf mask
     """
-
-    # Convert BGR → HSV
     hsv = cv2.cvtColor(
         image,
         cv2.COLOR_BGR2HSV
     )
 
-    # Green vegetation range
     lower_green = np.array(
         [25, 30, 20]
     )
@@ -58,14 +44,12 @@ def detect_leaf(image):
         [100, 255, 255]
     )
 
-    # Create mask
     leaf_mask = cv2.inRange(
         hsv,
         lower_green,
         upper_green
     )
 
-    # Morphological operations
     kernel = np.ones(
         (5, 5),
         np.uint8
@@ -86,7 +70,6 @@ def detect_leaf(image):
     return leaf_mask
 
 
-
 def detect_infected_region(
     image,
     leaf_mask
@@ -99,7 +82,6 @@ def detect_infected_region(
         Binary infected-region mask
     """
 
-    # Convert image to HSV
     hsv = cv2.cvtColor(
         image,
         cv2.COLOR_BGR2HSV
@@ -133,21 +115,15 @@ def detect_infected_region(
         upper_dark
     )
 
-
     infected_mask = cv2.bitwise_or(
         brown_mask,
         dark_mask
     )
 
-    # Keep only pixels inside the leaf
     infected_mask = cv2.bitwise_and(
         infected_mask,
         leaf_mask
     )
-
-    # -----------------------------------------------------
-    # REMOVE SMALL NOISE
-    # -----------------------------------------------------
 
     kernel = np.ones(
         (5, 5),
@@ -169,7 +145,6 @@ def detect_infected_region(
     return infected_mask
 
 
-
 def calculate_infection_percentage(
     leaf_mask,
     infected_mask
@@ -178,25 +153,20 @@ def calculate_infection_percentage(
     Calculate infection percentage.
 
     Formula:
-
         Infection %
         =
         Infected Area / Leaf Area × 100
     """
 
-    # Count leaf pixels
     leaf_area = cv2.countNonZero(
         leaf_mask
     )
 
-    # Count infected pixels
     infected_area = cv2.countNonZero(
         infected_mask
     )
 
-    # Avoid division by zero
     if leaf_area == 0:
-
         return (
             0.0,
             0,
@@ -216,7 +186,6 @@ def calculate_infection_percentage(
     )
 
 
-
 def create_infection_visualization(
     image,
     infected_mask
@@ -228,7 +197,6 @@ def create_infection_visualization(
 
     result = image.copy()
 
-
     red_overlay = np.zeros_like(
         image
     )
@@ -239,7 +207,6 @@ def create_infection_visualization(
         255
     )
 
-  
     infected_pixels = (
         infected_mask > 0
     )
@@ -250,14 +217,12 @@ def create_infection_visualization(
         255
     )
 
- 
     contours, _ = cv2.findContours(
         infected_mask,
         cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE
     )
 
-    # Draw boundaries
     cv2.drawContours(
         result,
         contours,
@@ -269,7 +234,6 @@ def create_infection_visualization(
     return result
 
 
-
 def analyze_infection(
     image_path
 ):
@@ -278,18 +242,15 @@ def analyze_infection(
     on a single tomato leaf image.
     """
 
-    
     image = cv2.imread(
         image_path
     )
 
     if image is None:
-
         raise ValueError(
             f"Unable to read image: {image_path}"
         )
 
-   
     image = cv2.resize(
         image,
         IMAGE_SIZE
@@ -299,7 +260,6 @@ def analyze_infection(
         image
     )
 
-   
     infected_mask = (
         detect_infected_region(
             image,
@@ -307,7 +267,6 @@ def analyze_infection(
         )
     )
 
-    
     (
         infection_percentage,
         leaf_area,
@@ -328,9 +287,7 @@ def analyze_infection(
         )
     )
 
-   
     return {
-
         "infection_percentage":
             infection_percentage,
 
@@ -363,13 +320,11 @@ def find_test_image():
     if not os.path.exists(
         TEST_FOLDER
     ):
-
         return None
 
     for filename in os.listdir(
         TEST_FOLDER
     ):
-
         if filename.lower().endswith(
             (
                 ".jpg",
@@ -379,7 +334,6 @@ def find_test_image():
                 ".webp"
             )
         ):
-
             return os.path.join(
                 TEST_FOLDER,
                 filename
@@ -390,15 +344,13 @@ def find_test_image():
 
 if __name__ == "__main__":
 
-    
-    print(" TOMATO LEAF INFECTION ANALYSIS")
-    
+    print(
+        " TOMATO LEAF INFECTION ANALYSIS"
+    )
 
-    # Find test image
     test_image = find_test_image()
 
     if test_image is None:
-
         print(
             "\nERROR: No test image found."
         )
@@ -408,26 +360,28 @@ if __name__ == "__main__":
         )
 
     else:
-
         print(
-            f"\nTest image:"
+            "\nTest image:"
         )
 
         print(
             test_image
         )
 
-        # Analyze image
         result = analyze_infection(
             test_image
         )
 
-       
-        print(" INFECTION ANALYSIS RESULT")
-        
+        print(
+            "\n=========================================="
+        )
 
         print(
-            f"\nLeaf area:"
+            " INFECTION ANALYSIS RESULT"
+        )
+
+        print(
+            "\nLeaf area:"
         )
 
         print(
@@ -435,7 +389,7 @@ if __name__ == "__main__":
         )
 
         print(
-            f"\nInfected area:"
+            "\nInfected area:"
         )
 
         print(
@@ -443,7 +397,7 @@ if __name__ == "__main__":
         )
 
         print(
-            f"\nInfection percentage:"
+            "\nInfection percentage:"
         )
 
         print(
@@ -451,14 +405,16 @@ if __name__ == "__main__":
         )
 
         print(
-            f"\nSeverity:"
+            "\nSeverity:"
         )
 
         print(
             result["severity"]
         )
 
-        output_folder = "results/infection_analysis"
+        output_folder = (
+            "results/infection_analysis"
+        )
 
         os.makedirs(
             output_folder,
@@ -476,12 +432,13 @@ if __name__ == "__main__":
         )
 
         print(
-            f"\nVisualization saved to:"
+            "\nVisualization saved to:"
         )
 
         print(
             output_path
         )
 
-        print(" ANALYSIS COMPLETE")
-        
+        print(
+            " ANALYSIS COMPLETE"
+        )
