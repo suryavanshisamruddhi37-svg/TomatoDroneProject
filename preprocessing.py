@@ -3,10 +3,6 @@ import os
 import shutil
 
 
-# ==========================================
-# CONFIGURATION
-# ==========================================
-
 INPUT_DIR = "dataset_clean"
 OUTPUT_DIR = "dataset_processed"
 
@@ -21,11 +17,6 @@ SUPPORTED_EXTENSIONS = (
     ".bmp",
     ".webp"
 )
-
-
-# ==========================================
-# IMAGE PREPROCESSING FUNCTIONS
-# ==========================================
 
 def resize_image(image, size=IMAGE_SIZE):
     """
@@ -140,11 +131,6 @@ def crop_image(image, crop_ratio=0.9):
 
     return cropped
 
-
-# ==========================================
-# PREPROCESS SINGLE IMAGE
-# ==========================================
-
 def preprocess_image(image_path):
     """
     Read and resize a single image.
@@ -165,16 +151,9 @@ def preprocess_image(image_path):
     return image
 
 
-# ==========================================
-# PROCESS COMPLETE DATASET
-# ==========================================
-
 def process_dataset():
 
-    # --------------------------------------
-    # REMOVE OLD PROCESSED DATASET
-    # --------------------------------------
-
+    
     if os.path.exists(
         OUTPUT_DIR
     ):
@@ -187,7 +166,7 @@ def process_dataset():
             OUTPUT_DIR
         )
 
-    # Create fresh output directory
+   
     os.makedirs(
         OUTPUT_DIR,
         exist_ok=True
@@ -197,9 +176,8 @@ def process_dataset():
     processed_images = 0
     failed_images = 0
 
-    print("\n==========================================")
+
     print(" TOMATO LEAF DATASET PREPROCESSING")
-    print("==========================================")
 
     print(
         f"\nInput directory : {INPUT_DIR}"
@@ -213,10 +191,6 @@ def process_dataset():
         f"Image size      : {IMAGE_SIZE}"
     )
 
-    # ======================================
-    # PROCESS TRAIN / VALID / TEST
-    # ======================================
-
     for split in SPLITS:
 
         input_split = os.path.join(
@@ -229,7 +203,6 @@ def process_dataset():
             split
         )
 
-        # Check split folder
         if not os.path.exists(
             input_split
         ):
@@ -245,7 +218,7 @@ def process_dataset():
             f"\nProcessing: {split}"
         )
 
-        # Get class folders
+      
         class_names = os.listdir(
             input_split
         )
@@ -257,7 +230,7 @@ def process_dataset():
                 class_name
             )
 
-            # Ignore files
+      
             if not os.path.isdir(
                 input_class_dir
             ):
@@ -277,7 +250,7 @@ def process_dataset():
                 f"  Class: {class_name}"
             )
 
-            # Process every image
+        
             for filename in os.listdir(
                 input_class_dir
             ):
@@ -299,10 +272,6 @@ def process_dataset():
                     filename
                 )
 
-                # --------------------------
-                # Read + preprocess
-                # --------------------------
-
                 image = preprocess_image(
                     input_path
                 )
@@ -317,10 +286,6 @@ def process_dataset():
                     )
 
                     continue
-
-                # --------------------------
-                # Save processed image
-                # --------------------------
 
                 success = cv2.imwrite(
                     output_path,
@@ -340,14 +305,10 @@ def process_dataset():
                         f"{filename}"
                     )
 
-    # ======================================
-    # FINAL SUMMARY
-    # ======================================
 
-    print("\n==========================================")
+
     print(" PREPROCESSING COMPLETE")
-    print("==========================================")
-
+  
     print(
         f"Total images found : {total_images}"
     )
@@ -369,11 +330,6 @@ def process_dataset():
     )
 
     print("\n==========================================")
-
-    # ======================================
-    # RESULT CHECK
-    # ======================================
-
     if failed_images == 0:
 
         print(
@@ -389,10 +345,6 @@ def process_dataset():
 
     print("==========================================")
 
-
-# ==========================================
-# MAIN
-# ==========================================
 
 if __name__ == "__main__":
 
