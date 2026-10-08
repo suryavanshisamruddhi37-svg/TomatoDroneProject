@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 400 300">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef6ea"/><stop offset="1" stop-color="#cfe5c8"/></linearGradient></defs>
+<rect width="400" height="300" rx="28" fill="url(#g)"/><ellipse cx="200" cy="180" rx="125" ry="70" transform="rotate(-25 200 180)" fill="#74a96b"/><path d="M90 230 Q200 180 315 90" stroke="#285d37" stroke-width="9" fill="none"/><circle cx="130" cy="155" r="12" fill="#b9d98d"/><circle cx="235" cy="125" r="10" fill="#c7df9b"/><text x="200" y="270" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#285d37">CropCare AI</text>
+</svg>

@@ -1,0 +1,9 @@
+/* auth.css — login / register pages only */
+.auth-hero {
+  background: linear-gradient(rgba(15, 61, 36, 0.55), rgba(15, 61, 36, 0.55)),
+    url("../assets/images/auth-hero.jpg") center/cover no-repeat;
+  min-height: 100vh;
+}
+.auth-form-wrap {
+  max-width: 380px;
+}
