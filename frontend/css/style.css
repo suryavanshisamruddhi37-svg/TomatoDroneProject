@@ -1,0 +1,156 @@
+/* style.css — shared base styles used across every page */
+:root {
+  --green-900: #0f3d24;
+  --green-700: #166b3e;
+  --green-600: #1e8a4c;
+  --green-100: #e6f6ec;
+  --green-50: #f3faf5;
+  --ink: #16261d;
+  --muted: #6b7d72;
+  --line: #e4ece6;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px; /* offset for sticky nav when jumping to #sections */
+}
+
+body {
+  background: #f6f9f7;
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.brand span {
+  color: var(--green-600);
+}
+
+.btn-cc-primary {
+  background: var(--green-600);
+  border-color: var(--green-600);
+  color: #fff;
+}
+.btn-cc-primary:hover {
+  background: var(--green-700);
+  border-color: var(--green-700);
+  color: #fff;
+}
+.btn-cc-outline {
+  border: 1.5px solid var(--green-600);
+  color: var(--green-700);
+  background: #fff;
+}
+.btn-cc-outline:hover {
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.card-cc {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.sidebar {
+  width: 230px;
+  min-height: 100vh;
+  background: #fff;
+  border-right: 1px solid var(--line);
+}
+.sidebar .nav-link {
+  color: #3f5147;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 4px;
+}
+.sidebar .nav-link:hover {
+  background: var(--green-50);
+  color: var(--green-700);
+}
+.sidebar .nav-link.active {
+  background: var(--green-600);
+  color: #fff;
+}
+
+.badge-good {
+  background: var(--green-100);
+  color: var(--green-700);
+}
+.badge-average {
+  background: #fdf1de;
+  color: #c47c1a;
+}
+.badge-poor {
+  background: #fbe7e5;
+  color: #c8392e;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--green-600);
+  box-shadow: 0 0 0 0.2rem rgba(30, 138, 76, 0.15);
+}
+
+/* ---- Landing page (scrollable, section-based) ---- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+}
+.site-nav .nav-link {
+  color: #3f5147;
+  font-weight: 500;
+}
+.site-nav .nav-link.active-section {
+  color: var(--green-700);
+  font-weight: 600;
+}
+
+section[id] {
+  scroll-margin-top: 76px;
+}
+
+.section-pad {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.section-alt {
+  background: #fff;
+}
+
+.step-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--green-600);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--green-600);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  z-index: 60;
+}
+.back-to-top.show { display: flex; }
